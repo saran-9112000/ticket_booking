@@ -1,6 +1,7 @@
 const loginRoute = require('../controllers/login.controller')
 const ScreenRoute = require('../controllers/screen.controller')
 const MovieRoute = require('../controllers/movie.controller')
+const TicketRoute = require('../controllers/ticket.controller')
 module.exports = [
 
 {
@@ -28,13 +29,13 @@ module.exports = [
 },
 
 {
-    method: 'POST',
+    method: 'PUT',
     path: '/create/update/screen/{id}',
     handler: ScreenRoute.updateScreen
 },
 
 {
-    method: 'POST',
+    method: 'PUT',
     path: '/create/update/movie/{id}',
     handler: MovieRoute.updateMovie
 },
@@ -49,6 +50,12 @@ module.exports = [
     method: 'DELETE',
     path: '/create/delete/movie/{id}',
     handler: MovieRoute.deleteMovie
+},
+
+{
+    method: 'POST',
+    path: '/create/new/ticket',
+    handler: TicketRoute.bookTicket
 },
 
 ]

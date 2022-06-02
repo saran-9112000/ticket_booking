@@ -7,4 +7,5 @@ exports.check = async (token) => {
     const Role = decoded.Role
     console.log(Role)
     console.log(token)
+    return decoded
 }
