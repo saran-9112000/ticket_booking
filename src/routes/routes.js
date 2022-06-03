@@ -58,4 +58,10 @@ module.exports = [
     handler: TicketRoute.bookTicket
 },
 
+{
+    method: 'DELETE',
+    path: '/delete/user/ticket/{id}',
+    handler: TicketRoute.deleteTicket
+},
+
 ]

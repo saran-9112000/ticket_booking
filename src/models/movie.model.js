@@ -26,16 +26,6 @@ class Movie extends Model {
     return 'available';
   };
 
-  static relationMappings = {
-    screen: {
-      relation: Model.HasOneRelation,
-      modelClass: Screen,
-      join: {
-        from: 'screenId',
-        to: 'screen.screenId'
-      }
-    }
-  };
   
 };
 module.exports = Movie

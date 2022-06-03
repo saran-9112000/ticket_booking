@@ -26,16 +26,5 @@ class Booking extends Model {
     return 'totalAmount';
   };
 
-  static relationMappings = {
-    screen: {
-      relation: Model.HasOneRelation,
-      modelClass: Movie,
-      join: {
-        from: 'movieId',
-        to: 'movie.movieId'
-      }
-    }
-  };
-  
 };
 module.exports = Booking

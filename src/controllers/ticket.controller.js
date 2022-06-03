@@ -11,9 +11,9 @@ exports.bookTicket = async(req,res,next) => {
 
 exports.deleteTicket = async(req,res,next) => {
     console.log(req.payload)
-    const token = tokenAccess.check(req.headers["x-access-token"]) 
+    const token = await tokenAccess.check(req.headers["x-access-token"]) 
     console.log(token)
-    const user = await screenService.deleteScreen(req.params,token)
+    const user = await ticketService.deleteTicket(req.params,token)
     console.log(user)
     return res.response(user).code(200)  
 }

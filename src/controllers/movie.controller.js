@@ -31,7 +31,7 @@ exports.updateMovie = async(req,res,next) => {
 
 exports.deleteMovie = async(req,res,next) => {
     console.log(req.payload)
-    const token = tokenAccess.check(req.headers["x-access-token"]) 
+    const token = await tokenAccess.check(req.headers["x-access-token"]) 
     console.log(token)
     const user = await movieService.deleteMovie(req.params,token)
     console.log(user)

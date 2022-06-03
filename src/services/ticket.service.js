@@ -1,25 +1,26 @@
 const Ticket = require('../models/ticket.model')
-const Movie= require('../models/movie.model')
+const movieService = require('../services/movie.service')
 const { ticketSchema } = require('../validator/ticket.validator');
+
 
 exports.bookTicket = async(payload, decoded) => {
     try{
     if(decoded.Role == 'Super Admin' ||"Admin" || "User") {
         const result = await ticketSchema.validateAsync(payload)
         console.log(result)
-        const compare = await Movie.query().findOne({movieId:payload.movieId})
-        console.log("COMPARE",compare.availableSeats)
-       
-            
-            console.log("checking service payload details",payload)
-            const user = await Ticket.query().insert({
-                movieId: payload.movieId,
-                userId: decoded.userId,
-                numberOfSeats: payload.numberOfSeats,
-                seatsBooked: JSON.stringify(payload.seatsBooked),
-                totalAmount: (120)*(payload.numberOfSeats)
-        });
-        return user
+        const validate= await movieService.validateTicket(payload)   
+            console.log("checking service validate details",validate)
+            if(validate==true) {
+                const user = await Ticket.query().insert({
+                    movieId: payload.movieId, 
+                    userId: decoded.userId,
+                    numberOfSeats: payload.numberOfSeats,
+                    seatsBooked: JSON.stringify(payload.seatsBooked),
+                    totalAmount: (120)*(payload.numberOfSeats)
+            });
+            return user
+            }
+           return "ticket already booked" 
         }
        return "Cannot access this page"  
     }
@@ -32,7 +33,13 @@ exports.deleteTicket = async(params,decoded) => {
     try{
         if(decoded.Role == 'Super Admin'||'User') {
             const user = await Ticket.query().findOne({userId:decoded.userId})
-            if(user) return await Ticket.query().findOne({ticketId:params.id}).delete();
+            if(user){
+                const validate= await movieService.updateTicket(user) 
+                if(validate == true){
+                    const ticket = await Ticket.query().findOne({bookingId:params.id}).delete();
+                    return "ticket deleted"
+                }
+            } 
         return "you cannot do this operation"
         }
         return 'You dont have access to do the operation'     
